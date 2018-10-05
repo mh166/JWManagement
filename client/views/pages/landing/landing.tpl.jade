@@ -100,18 +100,15 @@
 					.col-md-6.wow.fadeInUp
 						h2.text-uppercase {{_ 'welcome.contact.title'}}
 						| {{{_ 'welcome.contact.description'}}}
-						address
-							p
-								i.fa.fa-envelope-o
-								a.link-inverted(href='mailto:support@jwmanagement.org') support@jwmanagement.org
 					.col-md-6.wow.fadeInUp
 						.contact-form
 							form#contactForm
 								unless equals selectedType 'issue'
-									.col-md-6
-										input#name.form-control(type='text' placeholder='{{_ "welcome.contact.name"}}*' required)
-									.col-md-6
-										input#email.form-control(type='email' placeholder='{{_ "welcome.contact.email"}}*' required)
+									unless equals selectedType 'login'
+										.col-md-6
+											input#name.form-control(type='text' placeholder='{{_ "welcome.contact.name"}}*' required)
+										.col-md-6
+											input#email.form-control(type='email' placeholder='{{_ "welcome.contact.email"}}*' required)
 								.col-md-12
 									select#type.form-control
 										option(type='question') {{_ "welcome.contact.question"}}
@@ -135,9 +132,9 @@
 											i.fa.fa-angle-double-right.fa-fw
 								else if equals selectedType 'enquiry'
 									.col-md-12
-										input#congregation.form-control(type='congregation' placeholder='{{_ "welcome.contact.congregation"}}*' required)
+										input#projectName.form-control(type='projectName' placeholder='{{_ "welcome.contact.projectName"}}*' required)
 									.col-md-12
-										textarea#message.form-control(placeholder='{{_ "welcome.contact.message"}}*' rows='4' required)
+										textarea#message.form-control(placeholder='{{_ "welcome.contact.whatFor"}}*' rows='4' required)
 									.col-md-8
 										input.submit.form-control.text-uppercase(type='submit' value='{{_ "welcome.contact.sendEnquiry"}}')
 									.col-md-12
@@ -151,10 +148,8 @@
 										p * {{_ 'welcome.contact.required'}}
 				.row.center-align.m-t-xl
 					.col-xs-12.wow.fadeInUp
-						a.link-inverted(href='{{pathFor "about" language=langTag}}') {{_ "welcome.contact.about"}}
+						a.link-inverted(href='{{pathFor "terms"}}') {{_ "welcome.contact.terms"}}
 						| |
-						a.link-inverted(href='{{pathFor "terms" language=langTag}}') {{_ "welcome.contact.terms"}}
-						| |
-						a.link-inverted(href='{{pathFor "privacy" language=langTag}}') {{_ "welcome.contact.privacy"}}
+						a.link-inverted(href='{{pathFor "privacy"}}') {{_ "welcome.contact.privacy"}}
 	script(src="/lib/wow.min.js")
 	script(src="/lib/singlePageNav.min.js")

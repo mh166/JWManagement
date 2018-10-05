@@ -1,15 +1,60 @@
 {
-  "name": "JWManagement",
-  "description": "Shift management for public witnessing",
+  "name": "jwmanagement",
+  "description": "A highly configurable shift management system for Jehovah's Witnesses. Built to power projects like the metropolitan witnessing, construction projects and/or similar",
   "license": "SEE LICENSE IN ./LICENSE",
   "repository": {
     "type": "git",
     "url": "https://github.com/JWDeveloper/JWManagement.git"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.54",
+    "@okgrow/auto-analytics": "^2.0.0",
+    "autosize": "^4.0.0",
     "aws-sdk": "^2.10.0",
     "babel-runtime": "^6.20.0",
     "bcrypt": "^0.8.7",
+    "cordova-plugin-device": "^1.1.4",
+    "eslint": "^5.3.0",
+    "jquery": "^1.12.4",
+    "meteor-node-stubs": "^0.2.5",
+    "moment": "^2.22.2",
+    "object-assign-deep": "^0.4.0",
+    "prerender-node": "^2.7.4",
+    "simpl-schema": "^0.3.1",
     "underscore": "^1.8.3"
+  },
+  "scripts": {
+    "start": "meteor --settings .deploy/settings.json",
+    "mocha": "meteor test --driver-package meteortesting:mocha",
+    "lint": "standard"
+  },
+  "devDependencies": {
+    "standard": "^12.0.1"
+  },
+  "standard": {
+    "ignore": [
+      "client/lib/*",
+      "*.min.js",
+      "migrations.js",
+      "platform.js"
+    ],
+    "globals": [
+      "window",
+      "document",
+      "alert",
+      "confirm",
+      "$",
+      "Projects",
+      "ProjectSubs",
+      "Shifts",
+      "FS",
+      "Files",
+      "FileSubs",
+      "Weeks",
+      "FooTable",
+      "swalInput",
+      "swalYesNo",
+      "handleError"
+    ]
   }
 }

@@ -1,0 +1,39 @@
+project:
+  nameShort: Verwaltung
+  entity:
+    _id: ID
+    name: Name
+    news:
+      text: Neuigkeiten
+    shifts: Schichten
+    calendar: Kalender
+    knowledgeBase: Informationen
+    settings: Einstellungen
+    users: Benutzer
+    publishers: Verkündiger
+    publisherActions: Verkündiger Massenfunktionen
+    reports: Berichte
+    store: Depot
+    vessels: Schiffe
+    notes: Notizen
+    leave: Projekt verlassen
+    leaveConfirmation: Möchtest du dieses Projekt wirklich verlassen? Das kann nicht rückgängig gemacht werden.
+    supportPage: Hilfe
+    support:
+      phone: Ruf an (am schnellsten/einfachsten)
+      email: Sende uns eine E-Mail
+      github: Lege eine GitHub Issue an
+      paypal: PayPal
+  details:
+    sections:
+      project: Projekt
+      modules: Module
+      administration: Verwaltung
+      participation: Teilnahme
+  search:
+    placeholder: Suche nach Projekten
+  support:
+    details:
+      sections:
+        title: Bei Problemen, Fragen oder Anregungen könnt ihr uns gerne über die folgenden Wege erreichen
+        donate: Wir übernehmen gerne die Kosten für euch. Wenn ihr aber gerne etwas beitragen möchtet, freuen wir uns sehr

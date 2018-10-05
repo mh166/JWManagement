@@ -1,8 +1,8 @@
+moment = require('moment')
+
 Template.profile.helpers
 
 	isField: (field, val) -> 'selected' if @profile? and @profile[field] == val
-
-	picture: -> Pictures.findOne userId: Meteor.userId()
 
 	isAvailable: (day, hour) ->
 		if @profile.available? && Object.keys(@profile.available).length > 0
@@ -26,43 +26,35 @@ Template.profile.onRendered ->
 	@autorun ->
 		$('.input-daterange').datepicker
 			format: 'dd.mm.yyyy'
-			language: FlowRouter.getParam('language')
+			language: TAPi18n.getLanguage()
 			ignoreReadonly: true
-
-		$('#bdate-wrapper').datepicker
-			format: 'dd.mm.yyyy'
-			autoclose: true
-			forceParse: false
-			startDate: '1900/01/01'
-			language: FlowRouter.getParam('language')
-
-Template.profile.onRendered ->
-
-	$('.animated').removeClass('animated').addClass('skipped')
 
 Template.profile.onDestroyed ->
 
-	$('#editProfilePictureModal').modal('hide')
+	$('#mergeAccountsModal').modal('hide')
 	Session.set('target', undefined)
 
 Template.profile.events
 
-	'click .profile-image': (e) ->
-		wrs -> FlowRouter.setQueryParams editProfilePicture: true
+	'change #username': (e) ->
+		$('#username').val(e.target.value)
 
 	'change #firstname': (e) -> Meteor.call 'updateProfile', 'firstname', e.target.value, handleSuccess
 
 	'change #lastname': (e) -> Meteor.call 'updateProfile', 'lastname', e.target.value, handleSuccess
 
-	'change #username': (e) -> Meteor.call 'updateProfile', 'username', e.target.value, (error) ->
-		if error
-			if error.error == 406
-				swal TAPi18n.__('profile.usernameTaken'), '', 'error'
-				Delay -> $(e.target).val Meteor.user().username
+	'change #username': (e) ->
+		username = e.target.value
+
+		Meteor.call 'updateProfile', 'username', username, (error) ->
+			if error
+				if error.error == 406
+					swal TAPi18n.__('profile.usernameTaken'), '', 'error'
+					Delay -> $(e.target).val Meteor.user().username
+				else
+					handleError error
 			else
-				handleError error
-		else
-			handleSuccess error
+				handleSuccess error
 
 	'change #email': (e) -> Meteor.call 'updateProfile', 'email', e.target.value, handleSuccess
 
@@ -74,14 +66,6 @@ Template.profile.events
 
 	'change #languages': (e) -> Meteor.call 'updateProfile', 'languages', e.target.value, handleSuccess
 
-	'change #bdate': (e) ->
-		bdate = e.target.value
-
-		if bdate.indexOf('Invalid') > -1
-			Meteor.call 'updateProfile', 'bdate', ''
-		else
-			Meteor.call 'updateProfile', 'bdate', bdate, handleSuccess
-
 	'change #pioneer': (e) -> Meteor.call 'updateProfile', 'pioneer', e.target.value, handleSuccess
 
 	'change #privilege': (e) -> Meteor.call 'updateProfile', 'privilege', e.target.value, handleSuccess
@@ -92,6 +76,16 @@ Template.profile.events
 			Meteor.call 'updateProfile', 'shortTermCallsAlways', false
 
 	'change #shortTermCallsAlways': (e) -> Meteor.call 'updateProfile', 'shortTermCallsAlways', e.target.checked, handleSuccess
+
+	'change #notifyViaPush': (e) ->
+		Meteor.call 'updateProfile', 'notifyViaPush', e.target.checked, handleSuccess
+		if e.target.checked == false
+			Meteor.call 'updateProfile', 'notifyViaEmail', false
+
+	'change #notifyViaPush': (e) -> Meteor.call 'updateProfile', 'notifyViaEmail', e.target.checked, handleSuccess
+
+	'click #mergeAccounts': ->
+		wrs -> FlowRouter.setQueryParams mergeAccounts: true
 
 	'click #changePassword': ->
 		swal.withForm
@@ -150,7 +144,7 @@ Template.profile.events
 		Meteor.call 'addVacation', today, (err, vacationId) -> Tracker.afterFlush ->
 			$('#' + vacationId).datepicker
 				format: 'dd.mm.yyyy'
-				language: FlowRouter.getParam('language')
+				language: TAPi18n.getLanguage()
 
 	'change .startDate': (e) -> Meteor.call 'setVacationStart', @_id, e.target.value
 
